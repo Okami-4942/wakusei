@@ -70,6 +70,10 @@ scene.add(directionalLight);
 const controls = new PointerLockControls(camera, document.body);
 scene.add(controls.getObject());
 
+document.addEventListener("click", () =>{
+  controls.lock()
+})
+
 // キーボードのキーが押されたかチェックする
 const keys = {};
 document.addEventListener('keydown', (e) => keys[e.code] = true);
