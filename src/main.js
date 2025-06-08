@@ -13,20 +13,30 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0,3,10);
 
-
 const renderer = new THREE.WebGLRenderer({antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+renderer.shadowMap.enabled = true; //影をつける
+
+//床の作成
+const meshFloor = new THREE.Mesh(
+new THREE.BoxGeometry(2000, 0.1, 2000),
+new THREE.MeshStandardMaterial());
+
+//床に影を落す
+meshFloor.receiveShadow = true;
+scene.add(meshFloor);
 
 // ---------- GLB の読み込み ----------
 const loader = new GLTFLoader()
 
 const glbPath1 = "./model/shop.glb"
 const glbPath2 = "./model/kasei.glb"
+const glbPath3 = "./model/tikyuu.glb"
 
 //1個目のオブジェクトを読み込み
-loader.load(
+  loader.load(
   glbPath1,
   function (gltf) {
     const model1 = gltf.scene; //<-ここの変数を増やす
@@ -34,13 +44,14 @@ loader.load(
     // モデルのサイズや位置を調整
     model1.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model1.rotation.set(0, Math.PI / 2, 0); // モデルの回転を調整
-    // model1.position.set(0, 0, 0);//モデルの位置を調整
+    model1.position.set(0, 0, 0);//モデルの位置を調整
+    model1.receiveShadow = true;
    
     scene.add(model1);
-    console.log("モデルが正常に読み込まれました。");
+    console.log("モデル1が正常に読み込まれました。");
   })
   
-  //2個目のオブジェクトを読み込み
+//   //2個目のオブジェクトを読み込み
   loader.load(
   glbPath2,
   function (gltf) {
@@ -50,21 +61,48 @@ loader.load(
     model2.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model2.rotation.set(0, Math.PI, 0); // モデルの回転を調整
     model2.position.set(-2, 1.5, 0);//モデルの位置を調整
+    model2.receiveShadow = true;
     
     scene.add(model2);
-    console.log("モデルが正常に読み込まれました。");
-  }
-  )
+    console.log("モデル2が正常に読み込まれました。");
+  })
+
+//   //３個目のオブジェクトを読み込み
+  loader.load(
+  glbPath3,
+  function (gltf) {
+    const model3 = gltf.scene; //<-ここの変数を増やす
+
+    // モデルのサイズや位置を調整
+    model3.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
+    model3.rotation.set(0, Math.PI, 0); // モデルの回転を調整
+    model3.position.set(2, 1.5, 0);//モデルの位置を調整
+    model3.receiveShadow = true;
+    
+    scene.add(model3);
+    console.log("モデル3が正常に読み込まれました。");
+  })
 
 
-// 環境光
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 色、強度
-scene.add(ambientLight);
+  //環境光
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 色、強度
+  scene.add(ambientLight);
 
-// 平行光 (太陽光のようなもの)
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(5, 10, 7.5);
-scene.add(directionalLight);
+// 点光源を作成
+const light1 = new THREE.PointLight(0xFFFFFF, 2, 5, 1.0);
+scene.add(light1);
+light1.position.set(-5, 2.8, 0);
+light1.castShadow = true;
+
+const light2 = new THREE.PointLight(0xFFFFFF, 2, 5, 1.0);
+scene.add(light2);
+light2.position.set(0, 2.8, 0);
+light2.castShadow = true;
+
+const light3 = new THREE.PointLight(0xFFFFFF, 2, 5, 1.0);
+scene.add(light3);
+light3.position.set(5, 2.8, 0);
+light3.castShadow = true;
 
 // カメラをマウスで操作できるようにする
 const controls = new PointerLockControls(camera, document.body);
@@ -85,14 +123,14 @@ const velocity = new THREE.Vector3();
 
 // 毎フレーム（60回/秒）動かす関数
 function animate() {
- requestAnimationFrame(animate)};
+ requestAnimationFrame(animate);
 
  if (controls.isLocked) {
   direction.set(0, 0, 0); // 方向を初期化
 
  // 押されたキーに応じて方向を設定
- if (keys['KeyW']) direction.z -= 1;
- if (keys['KeyS']) direction.z += 1;
+ if (keys['KeyS']) direction.z -= 1;
+ if (keys['KeyW']) direction.z += 1;
  if (keys['KeyA']) direction.x -= 1;
  if (keys['KeyD']) direction.x += 1;
 
@@ -103,7 +141,7 @@ function animate() {
  // 実際にカメラを動かす
  controls.moveRight(velocity.x);
  controls.moveForward(velocity.z);
-
+ }
 
   renderer.render(scene, camera);
 
