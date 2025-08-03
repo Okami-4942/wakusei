@@ -61,7 +61,7 @@ const glbPath3 = "./model/tikyuu.glb"
     // モデルのサイズや位置を調整
     model1.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model1.rotation.set(0, Math.PI / 2, 0); // モデルの回転を調整
-    model1.position.set(0, 0, 0);//モデルの位置を調整
+    model1.position.set(0, 0.1, 0);//モデルの位置を調整
     model1.receiveShadow = true;
    
     scene.add(model1);
@@ -77,7 +77,7 @@ const glbPath3 = "./model/tikyuu.glb"
     // モデルのサイズや位置を調整
     model2.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model2.rotation.set(0, Math.PI, 0); // モデルの回転を調整
-    model2.position.set(-2.4, 1.5, 3.5);//モデルの位置を調整
+    model2.position.set(-2.4, 1.6, 3.5);//モデルの位置を調整
     model2.receiveShadow = true;
     
     scene.add(model2);
@@ -93,7 +93,7 @@ const glbPath3 = "./model/tikyuu.glb"
     // モデルのサイズや位置を調整
     model3.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model3.rotation.set(0, Math.PI, 0); // モデルの回転を調整
-    model3.position.set(2.4, 1.5, -3.5);//モデルの位置を調整
+    model3.position.set(2.4, 1.6, -3.5);//モデルの位置を調整
     model3.receiveShadow = true;
     
     scene.add(model3);
@@ -108,39 +108,39 @@ const glbPath3 = "./model/tikyuu.glb"
 // 点光源を作成
 const light1 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light1);
-light1.position.set(-5, 1.6, 3.5);
+light1.position.set(-5, 1.75, 3.5);
 light1.castShadow = true;
 
 const light2 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light2);
-light2.position.set(0, 1.6, 3.5);
+light2.position.set(0, 1.75, 3.5);
 light2.castShadow = true;
 
 const light3 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light3);
-light3.position.set(5, 1.6, 3.5);
+light3.position.set(5, 1.75, 3.5);
 light3.castShadow = true;
 
 // 点光源を作成その２
 const light4 = new THREE.PointLight(0xffffff, 8, 5, 1.0);
 scene.add(light4);
-light4.position.set(-5, 1.6, -3.5);
+light4.position.set(-5, 1.75, -3.5);
 light4.castShadow = true;
 
 const light5 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light5);
-light5.position.set(0, 1.6, -3.5);
+light5.position.set(0, 1.75, -3.5);
 light5.castShadow = true;
 
 const light6 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light6);
-light6.position.set(5, 1.6, -3.5);
+light6.position.set(5, 1.75, -3.5);
 light6.castShadow = true;
 
 // 天井光源を作成
-const light7 = new THREE.PointLight(0xe3cc8d, 14, 5, 1.0);
+const light7 = new THREE.PointLight(0xe3cc8d, 12, 10, 1.0);
 scene.add(light7);
-light7.position.set(0, 8, 0);
+light7.position.set(0, 8.5, 0);
 light7.castShadow = true;
 
 // カメラをマウスで操作できるようにする
