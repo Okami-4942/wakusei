@@ -11,7 +11,7 @@ scene.background = new THREE.Color(0xeeeeee);
 const camera = new THREE.PerspectiveCamera(
   65, window.innerWidth / window.innerHeight, 0.1, 1000
 );
-camera.position.set(0,3,10);
+camera.position.set(0,3,0);
 
 const renderer = new THREE.WebGLRenderer({antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -28,6 +28,23 @@ new THREE.MeshStandardMaterial());
 meshFloor.receiveShadow = true;
 scene.add(meshFloor);
 
+
+const size = 0.02;  // crosshair の長さを調整
+const material = new THREE.LineBasicMaterial({ color: 0xffffff });
+
+const crosshairGeometry = new THREE.BufferGeometry();
+const vertices = new Float32Array([
+  -size,  0, -1,   size,  0, -1,   // 横線
+   0, -size, -1,   0,  size, -1    // 縦線
+]);
+crosshairGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+// 2. LineSegments で十字を描く
+const crosshair = new THREE.LineSegments(crosshairGeometry, material);
+
+// 3. カメラに add して、シーンにも camera を add
+camera.add(crosshair);
+
 // ---------- GLB の読み込み ----------
 const loader = new GLTFLoader()
 
@@ -35,7 +52,7 @@ const glbPath1 = "./model/shop.glb"
 const glbPath2 = "./model/kasei.glb"
 const glbPath3 = "./model/tikyuu.glb"
 
-//1個目のオブジェクトを読み込み
+//shopのオブジェクトを読み込み
   loader.load(
   glbPath1,
   function (gltf) {
@@ -51,7 +68,7 @@ const glbPath3 = "./model/tikyuu.glb"
     console.log("モデル1が正常に読み込まれました。");
   })
   
-//   //2個目のオブジェクトを読み込み
+//   //火星のオブジェクトを読み込み
   loader.load(
   glbPath2,
   function (gltf) {
@@ -60,14 +77,14 @@ const glbPath3 = "./model/tikyuu.glb"
     // モデルのサイズや位置を調整
     model2.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model2.rotation.set(0, Math.PI, 0); // モデルの回転を調整
-    model2.position.set(-2, 1.5, 0);//モデルの位置を調整
+    model2.position.set(-2.4, 1.5, 3.5);//モデルの位置を調整
     model2.receiveShadow = true;
     
     scene.add(model2);
     console.log("モデル2が正常に読み込まれました。");
   })
 
-//   //３個目のオブジェクトを読み込み
+//   //地球のオブジェクトを読み込み
   loader.load(
   glbPath3,
   function (gltf) {
@@ -76,7 +93,7 @@ const glbPath3 = "./model/tikyuu.glb"
     // モデルのサイズや位置を調整
     model3.scale.set(0.5, 0.5, 0.5); //モデルの大きさを調整
     model3.rotation.set(0, Math.PI, 0); // モデルの回転を調整
-    model3.position.set(2, 1.5, 0);//モデルの位置を調整
+    model3.position.set(2.4, 1.5, -3.5);//モデルの位置を調整
     model3.receiveShadow = true;
     
     scene.add(model3);
@@ -89,20 +106,42 @@ const glbPath3 = "./model/tikyuu.glb"
   scene.add(ambientLight);
 
 // 点光源を作成
-const light1 = new THREE.PointLight(0xFFFFFF, 2, 5, 1.0);
+const light1 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light1);
-light1.position.set(-5, 2.8, 0);
+light1.position.set(-5, 1.6, 3.5);
 light1.castShadow = true;
 
-const light2 = new THREE.PointLight(0xFFFFFF, 2, 5, 1.0);
+const light2 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light2);
-light2.position.set(0, 2.8, 0);
+light2.position.set(0, 1.6, 3.5);
 light2.castShadow = true;
 
-const light3 = new THREE.PointLight(0xFFFFFF, 2, 5, 1.0);
+const light3 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
 scene.add(light3);
-light3.position.set(5, 2.8, 0);
+light3.position.set(5, 1.6, 3.5);
 light3.castShadow = true;
+
+// 点光源を作成その２
+const light4 = new THREE.PointLight(0xffffff, 8, 5, 1.0);
+scene.add(light4);
+light4.position.set(-5, 1.6, -3.5);
+light4.castShadow = true;
+
+const light5 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
+scene.add(light5);
+light5.position.set(0, 1.6, -3.5);
+light5.castShadow = true;
+
+const light6 = new THREE.PointLight(0xFFFFFF, 8, 5, 1.0);
+scene.add(light6);
+light6.position.set(5, 1.6, -3.5);
+light6.castShadow = true;
+
+// 天井光源を作成
+const light7 = new THREE.PointLight(0xe3cc8d, 14, 5, 1.0);
+scene.add(light7);
+light7.position.set(0, 8, 0);
+light7.castShadow = true;
 
 // カメラをマウスで操作できるようにする
 const controls = new PointerLockControls(camera, document.body);
