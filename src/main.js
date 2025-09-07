@@ -1,7 +1,6 @@
 
 import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
-console.log("ok")
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 
 
@@ -13,7 +12,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0,3,0);
 
-const renderer = new THREE.WebGLRenderer({antialias: true });
+const renderer = new THREE.WebGLRenderer({antialias: true, powerPreference: "high-performance" });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -63,6 +62,7 @@ const glbPath3 = "./model/tikyuu.glb"
     model1.rotation.set(0, Math.PI / 2, 0); // モデルの回転を調整
     model1.position.set(0, 0.1, 0);//モデルの位置を調整
     model1.receiveShadow = true;
+    
    
     scene.add(model1);
     console.log("モデル1が正常に読み込まれました。");
